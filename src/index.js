@@ -78,7 +78,7 @@ class Slider extends Component {
 
   state = {
     limit: 0,
-    grab: 0,
+    grab: 0
   }
 
   // Add window resize event listener here
@@ -190,7 +190,7 @@ class Slider extends Component {
   }
 
   render() {
-    let dimension, direction, position, coords, fillStyle, handleStyle;
+    let dimension, direction, position, coords, fillStyle, handleStyle, displayValue;
     let { value, orientation, className } = this.props;
 
     dimension = constants.orientation[orientation].dimension;
@@ -201,7 +201,11 @@ class Slider extends Component {
 
     fillStyle = {[dimension]: `${coords.fill}px`};
     handleStyle = {[direction]: `${coords.handle}px`};
-		//Don't hard code display:flex. Turn it into prop driven value.
+
+    if(this.props.displayValue) {
+      displayValue = <div>{this.props.value}</div>;
+    }
+
     return (
       <div
         ref="slider"
@@ -218,7 +222,9 @@ class Slider extends Component {
           className="rangeslider__handle"
           onMouseDown={this.handleKnobMouseDown}
           onClick={this.handleNoop}
-          style={handleStyle} />
+          style={handleStyle}>
+            {displayValue}
+          </div>
       </div>
     );
   }
